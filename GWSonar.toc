@@ -1,12 +1,12 @@
 ## Interface: 60200
 ## Title: GWSonar
-## Notes: A demonstration of the WoW GreenWallAPI. 
+## Notes: A demonstration of the GreenWall add-on communication API.
 ## Author: Mark Rogaski <stigg@aie-guild.org>
-## Version: 0.1.0-dev
+## Version: 0.1.0-alpha
 ## URL: https://github.com/AIE-Guild/GWSonar
 ## DefaultState: enabled
 ## X-Category: Guild
-## X-Date: 2015-12-17
+## X-Date: 2015-12-18
 
 GWSonar.lua
 GWSonar.xml

@@ -109,18 +109,26 @@ end
 -- @param echo True is the plater receiving the message is the sender
 -- @param message The message data
 local function PingHandler(addon, sender, echo, message)
-    if addon == 'GWSonar' then
+
+    if addon == 'GWSonar' and not echo then
+    
         local op, guid, serial = strsplit('/', message)
         if op == 'REQUEST' then
+    
             -- Send the response
             local token = string.format('RESPONSE/%s/%s', guid, serial)
             GreenWallAPI.SendMessage('GWSonar', token)
+    
         elseif op == 'RESPONSE' then
+    
             local delta = GetTime() - GWSonar.timestamp
             table.insert(GWSonar.sample, delta)
             Write('ping response received from %s, %.3f second(s).', sender, delta)
+    
         end
+
     end
+
 end
 
 
@@ -135,15 +143,21 @@ function GWSonar_OnLoad(self)
     -- Register slash command handler
     SLASH_GWSONAR1 = '/gwsonar'
     function SlashCmdList.GWSONAR(msg, editbox)
+ 
         if msg == 'ping' then
+ 
             local token = Ping()
             Write('ping request sent.')
+ 
         elseif msg == 'stats' then
+ 
             local n = #GWSonar.sample
             local min, max = MinMax(GWSonar.sample)
             local avg = Mean(GWSonar.sample)
             Write('%d response(s); min/avg/max = %.3f/%.3f/%.3f', n, min, avg, max)
+ 
         end
+ 
     end
 
     -- Register for events
