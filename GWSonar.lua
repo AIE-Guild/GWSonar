@@ -110,7 +110,7 @@ end
 -- @param message The message data
 local function PingHandler(addon, sender, echo, message)
 
-    if addon == 'GWSonar' then
+    if addon == 'GWSonar' and not echo then
     
         local op, guid, serial = strsplit('/', message)
         if op == 'REQUEST' then
