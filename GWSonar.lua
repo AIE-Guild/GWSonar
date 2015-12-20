@@ -54,6 +54,7 @@ end
 
 --- Minimum/maximum values from a table.
 -- @param t A table of numeric values.
+-- @return (min, max) - Minimum value, maximum value.
 --
 -- Taken from http://lua-users.org/wiki/SimpleStats .
 --
@@ -68,7 +69,7 @@ function MinMax(t)
         end
     end
 
-    return max, min
+    return min, max
 end
 
 
@@ -92,16 +93,26 @@ function Mean(t)
 end
 
 
+--[[-----------------------------------------------------------------------
+
+API Functions
+
+--]]-----------------------------------------------------------------------
+--
 --- Send a ping request.
 local function Ping()
+
     GWSonar.serial = GWSonar.serial + 1
     GWSonar.sample = {}
     local guid = UnitGUID('player')
     local token = string.format('REQUEST/%s/%04X', guid, GWSonar.serial)
+    
     GWSonar.timestamp = GetTime()
     GreenWallAPI.SendMessage('GWSonar', token)
     return token
+
 end
+
 
 --- Generate and process ping responses.
 -- @param addon The sending addon
@@ -121,6 +132,7 @@ local function PingHandler(addon, sender, echo, message)
     
         elseif op == 'RESPONSE' then
     
+            -- Record response times
             local delta = GetTime() - GWSonar.timestamp
             table.insert(GWSonar.sample, delta)
             Write('ping response received from %s, %.3f second(s).', sender, delta)
@@ -152,9 +164,13 @@ function GWSonar_OnLoad(self)
         elseif msg == 'stats' then
  
             local n = #GWSonar.sample
-            local min, max = MinMax(GWSonar.sample)
-            local avg = Mean(GWSonar.sample)
-            Write('%d response(s); min/avg/max = %.3f/%.3f/%.3f', n, min, avg, max)
+            if n > 0 then
+                local min, max = MinMax(GWSonar.sample)
+                local avg = Mean(GWSonar.sample)
+                Write('%d response(s); min/avg/max = %.3f/%.3f/%.3f', n, min, avg, max)
+            else
+                Write('No responses')
+            end
  
         end
  
@@ -174,7 +190,12 @@ function GWSonar_OnEvent(self, event, ...)
     
     elseif event == 'PLAYER_ENTERING_WORLD' then  
     
-        GreenWallAPI.AddMessageHandler(PingHandler, 'GWSonar', 0)
+        -- Check to ensure GreenWall is loaded and the installed version 
+        -- supports the API.
+        if IsAddOnLoaded('GreenWall') and GreenWallAPI ~= nil then
+            GreenWallAPI.AddMessageHandler(PingHandler, 'GWSonar', 0)
+            Write('installed ping handler.')
+        end
     
     end
 
