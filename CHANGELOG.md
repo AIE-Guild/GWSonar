@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org/).
 
+## [0.2.1] -- 2015-12-30
+### Fixed
+- Updates to change log.
+
 ## [0.2.0] -- 2015-12-30
 ### Fixed
 - Updated to match API changes in GreenWall 1.7.0-beta.1.
@@ -19,4 +23,6 @@ This project uses [Semantic Versioning](http://semver.org/).
 ## 0.1.0-dev -- 2015-12-18
 Initial commit.
 
+[0.2.1]: https://github.com/AIE-Guild/GWSonar/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/AIE-Guild/GWSonar/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/AIE-Guild/GWSonar/compare/v0.1.0-dev...v0.1.0
