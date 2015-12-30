@@ -2,6 +2,9 @@
 
 This project uses [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] -- 2015-12-30
+### Fixed
+- Updated to match API changes in GreenWall 1.7.0-beta.1.
 
 ## [0.1.0] -- 2015-12-18
 ### Fixed

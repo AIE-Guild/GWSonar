@@ -78,7 +78,7 @@
 	</tr>
 
 	<tr>
-	<td class="name" nowrap><a href="#PingHandler">PingHandler</a>&nbsp;(addon, sender, echo, message)</td>
+	<td class="name" nowrap><a href="#PingHandler">PingHandler</a>&nbsp;(addon, sender, message, echo, guild)</td>
 	<td class="summary">Generate and process ping responses.</td>
 	</tr>
 
@@ -140,7 +140,7 @@ Minimum/maximum values from a table.
 <ul>
 	
 	<li>
-	  <code><em>t</em></code>: A table of numeric values.  Taken from http://lua-users.org/wiki/SimpleStats . 
+	  <code><em>t</em></code>: A table of numeric values.
 	</li>
 	
 </ul>
@@ -149,6 +149,9 @@ Minimum/maximum values from a table.
 
 
 
+
+<h3>Return value:</h3>
+<ul>(min, max) - Minimum value, maximum value.  Taken from http://lua-users.org/wiki/SimpleStats . </ul>
 
 
 
@@ -174,7 +177,7 @@ Send a ping request.
 
 
 
-<dt><a name="PingHandler"></a><strong>PingHandler</strong>&nbsp;(addon, sender, echo, message)</dt>
+<dt><a name="PingHandler"></a><strong>PingHandler</strong>&nbsp;(addon, sender, message, echo, guild)</dt>
 <dd>
 Generate and process ping responses.
 
@@ -191,11 +194,15 @@ Generate and process ping responses.
 	</li>
 	
 	<li>
-	  <code><em>echo</em></code>: True is the plater receiving the message is the sender
+	  <code><em>message</em></code>: The message data
 	</li>
 	
 	<li>
-	  <code><em>message</em></code>: The message data
+	  <code><em>echo</em></code>: True if the player is the sender
+	</li>
+	
+	<li>
+	  <code><em>guild</em></code>: True if the player is in the same co-guild as the sender
 	</li>
 	
 </ul>

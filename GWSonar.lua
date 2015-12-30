@@ -117,9 +117,10 @@ end
 --- Generate and process ping responses.
 -- @param addon The sending addon
 -- @param sender The sending player
--- @param echo True is the plater receiving the message is the sender
 -- @param message The message data
-local function PingHandler(addon, sender, echo, message)
+-- @param echo True if the player is the sender
+-- @param guild True if the player is in the same co-guild as the sender 
+local function PingHandler(addon, sender, message, echo, guild)
 
     if addon == 'GWSonar' and not echo then
     
