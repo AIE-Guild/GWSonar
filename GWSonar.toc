@@ -2,7 +2,7 @@
 ## Title: GWSonar
 ## Notes: A demonstration of the GreenWall add-on communication API.
 ## Author: Mark Rogaski <stigg@aie-guild.org>
-## Version: 0.2.0
+## Version: 0.2.1
 ## URL: https://github.com/AIE-Guild/GWSonar
 ## DefaultState: enabled
 ## X-Category: Guild
