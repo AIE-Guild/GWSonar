@@ -153,30 +153,6 @@ UI Callbacks
 
 function GWSonar_OnLoad(self)
 
-    -- Register slash command handler
-    SLASH_GWSONAR1 = '/gwsonar'
-    function SlashCmdList.GWSONAR(msg, editbox)
- 
-        if msg == 'ping' then
- 
-            local token = Ping()
-            Write('ping request sent.')
- 
-        elseif msg == 'stats' then
- 
-            local n = #GWSonar.sample
-            if n > 0 then
-                local min, max = MinMax(GWSonar.sample)
-                local avg = Mean(GWSonar.sample)
-                Write('%d response(s); min/avg/max = %.3f/%.3f/%.3f', n, min, avg, max)
-            else
-                Write('No responses')
-            end
- 
-        end
- 
-    end
-
     -- Register for events
     self:RegisterEvent('ADDON_LOADED')
     self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -184,6 +160,18 @@ function GWSonar_OnLoad(self)
 end
 
 function GWSonar_OnEvent(self, event, ...)
+    function apiAvailable()
+        function testAPI()
+            -- Raises and exception of GreenWall is loaded or is pre-1.7.
+            assert(IsAddOnLoaded('GreenWall'))
+            return GreenWallAPI.version
+        end
+        
+        -- Catch any exceptions
+        local found, version = pcall(testAPI)
+        
+        return found and version >= 1
+    end
 
     if event == 'ADDON_LOADED' and select(1, ...) == 'GWSonar' then
         
@@ -193,9 +181,40 @@ function GWSonar_OnEvent(self, event, ...)
     
         -- Check to ensure GreenWall is loaded and the installed version 
         -- supports the API.
-        if IsAddOnLoaded('GreenWall') and GreenWallAPI ~= nil then
+        if apiAvailable() then
+        
+            -- Register slash command handler
+            SLASH_GWSONAR1 = '/gwsonar'
+            function SlashCmdList.GWSONAR(msg, editbox)
+         
+                if msg == 'ping' then
+         
+                    local token = Ping()
+                    Write('ping request sent.')
+         
+                elseif msg == 'stats' then
+         
+                    local n = #GWSonar.sample
+                    if n > 0 then
+                        local min, max = MinMax(GWSonar.sample)
+                        local avg = Mean(GWSonar.sample)
+                        Write('%d response(s); min/avg/max = %.3f/%.3f/%.3f', n, min, avg, max)
+                    else
+                        Write('No responses')
+                    end
+         
+                end
+         
+            end
+            
+            -- Install message handler
             GreenWallAPI.AddMessageHandler(PingHandler, 'GWSonar', 0)
             Write('installed ping handler.')
+        
+        else
+        
+            Write('GreenWall API unavailable, addon disabled.')
+        
         end
     
     end
