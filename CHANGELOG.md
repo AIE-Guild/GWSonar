@@ -2,7 +2,7 @@
 
 This project uses [Semantic Versioning](http://semver.org/).
 
-## [0.2.2] -- 2015-12-31
+## [0.2.2] -- 2016-01-01
 ### Added
 - Added a check of the GreenWall API version.
 - Disable slash commands is API is not available.
